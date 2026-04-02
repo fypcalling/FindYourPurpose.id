@@ -430,6 +430,8 @@ function loadTipeDetail(){
 
 /**
  * Render daftar jurusan dengan filter dan search
+ * User bisa search/filter ALL types meskipun belum assessment
+ * Tapi filter "my" butuh assessment dulu
  */
 function renderJurusan(){
   let search=document.getElementById("searchJurusan").value.toLowerCase();
@@ -437,11 +439,12 @@ function renderJurusan(){
   let my=localStorage.getItem("riasec")||"";
   let userCode = my ? my.split("-") : [];
 
-  // Check if user sudah assessment
-  if(!my){
+  // Check if user pilih "my" tapi belum assessment
+  if(filter==="my" && !my){
     document.getElementById("jurusanList").innerHTML = `
       <div class="card" style="text-align:center; background: rgba(244, 67, 54, 0.1); border-left: 4px solid #f44336;">
         <p style="color: #f44336; font-weight: 500; opacity: 0.9;">❌ Kamu belum mengerjakan assessment.</p>
+        <p style="opacity: 0.7; font-size: 14px; margin-top: 10px;">Untuk melihat jurusan yang sesuai dengan hasil kamu, kerjakan assessment terlebih dahulu.</p>
         <button class="main" type="button" onclick="show('test')" style="margin-top: 15px;">Mulai Assessment</button>
       </div>
     `;
@@ -456,17 +459,26 @@ function renderJurusan(){
     let matchSearch = j.name.toLowerCase().includes(search);
     let matchFilter = true;
 
-    if(filter==="my") matchFilter = true;
-    else if(filter!=="all") matchFilter = j.tipe === filter;
+    if(filter==="my"){
+      // Jika "my" pilih, gunakan scoring
+      matchFilter = true;
+    }
+    else if(filter!=="all"){
+      // Filter by type (R, I, A, S, E, C)
+      matchFilter = j.tipe === filter;
+    }
+    // Jika "all", tampilkan semua
 
     return matchSearch && matchFilter;
   });
 
-  // Calculate score dan sort
-  list = list.map(j=>{
-    let score = calculateRIASECScore(userCode, j.cocok);
-    return {...j, score};
-  }).sort((a,b)=>b.score - a.score);
+  // Calculate score dan sort (hanya jika user sudah assessment)
+  if(my){
+    list = list.map(j=>{
+      let score = calculateRIASECScore(userCode, j.cocok);
+      return {...j, score};
+    }).sort((a,b)=>b.score - a.score);
+  }
 
   // If no results
   if(list.length === 0){
@@ -480,8 +492,31 @@ function renderJurusan(){
 
   // Render each jurusan
   list.forEach(j=>{
-    let scorePercentage = (j.score / 10).toFixed(0);
-    let scoreColor = j.score >= 700 ? '#4CAF50' : j.score >= 500 ? '#FF9800' : '#f44336';
+    // Score hanya muncul jika user sudah assessment
+    let scoreHTML = "";
+    if(my){
+      let scorePercentage = (j.score / 10).toFixed(0);
+      let scoreColor = j.score >= 700 ? '#4CAF50' : j.score >= 500 ? '#FF9800' : '#f44336';
+      
+      scoreHTML = `
+      <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
+        <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
+          <span><b>Match Score:</b></span>
+          <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${j.score}</span>
+          <span style="opacity:0.7;">/ 1000</span>
+        </p>
+        <div style="width: 100%; background: rgba(255,255,255,0.2); height: 6px; border-radius: 3px; margin-top: 8px; overflow: hidden;">
+          <div style="width: ${scorePercentage}%; background: ${scoreColor}; height: 100%; border-radius: 3px; transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+      `;
+    } else {
+      scoreHTML = `
+      <div style="margin-top:15px; padding:12px; background:rgba(158,158,158,0.15); border-left:4px solid #9e9e9e; border-radius:6px;">
+        <p style="margin:0; opacity: 0.7; font-size: 12px;">💡 <i>Kerjakan assessment untuk melihat match score</i></p>
+      </div>
+      `;
+    }
     
     html+=`
     <div class="card">
@@ -498,16 +533,7 @@ function renderJurusan(){
       <p style="margin-top: 8px; margin-left: 10px;">${j.potkarier || "-"}</p>
     </details>
     
-    <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
-      <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
-        <span><b>Match Score:</b></span>
-        <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${j.score}</span>
-        <span style="opacity:0.7;">/ 1000</span>
-      </p>
-      <div style="width: 100%; background: rgba(255,255,255,0.2); height: 6px; border-radius: 3px; margin-top: 8px; overflow: hidden;">
-        <div style="width: ${scorePercentage}%; background: ${scoreColor}; height: 100%; border-radius: 3px; transition: width 0.3s ease;"></div>
-      </div>
-    </div>
+    ${scoreHTML}
     
     </div>`;
   });
@@ -519,17 +545,21 @@ function renderJurusan(){
 
 /**
  * Render daftar karier dengan filter dan search
+ * User bisa search/filter ALL types meskipun belum assessment
+ * Tapi filter "my" butuh assessment dulu
  */
 function renderKarier(){
   let search=document.getElementById("searchKarier").value.toLowerCase();
   let filter=document.getElementById("filterKarier").value;
   let my=localStorage.getItem("riasec")||"";
+  let top3 = my ? my.split("-") : [];
 
-  // Check if user sudah assessment
-  if(!my){
+  // Check if user pilih "my" tapi belum assessment
+  if(filter==="my" && !my){
     document.getElementById("karierList").innerHTML = `
       <div class="card" style="text-align:center; background: rgba(244, 67, 54, 0.1); border-left: 4px solid #f44336;">
         <p style="color: #f44336; font-weight: 500; opacity: 0.9;">❌ Kamu belum mengerjakan assessment.</p>
+        <p style="opacity: 0.7; font-size: 14px; margin-top: 10px;">Untuk melihat karier yang sesuai dengan hasil kamu, kerjakan assessment terlebih dahulu.</p>
         <button class="main" type="button" onclick="show('test')" style="margin-top: 15px;">Mulai Assessment</button>
       </div>
     `;
@@ -537,11 +567,11 @@ function renderKarier(){
   }
 
   let html="";
-  let top3 = my.split("-");
 
   let filtered = karierData
   .map(k=>{
-    let score = calculateRIASECScore(top3, k.cocok);
+    // Calculate score hanya jika user sudah assessment
+    let score = my ? calculateRIASECScore(top3, k.cocok) : 0;
     return {...k, score};
   })
   .filter(k=>{
@@ -549,15 +579,22 @@ function renderKarier(){
     let matchFilter = true;
 
     if(filter==="my"){
+      // Jika "my" pilih, filter by score > 0
       matchFilter = k.score > 0;
     }
     else if(filter!=="all"){
+      // Filter by type (R, I, A, S, E, C)
       matchFilter = k.tipe === filter;
     }
+    // Jika "all", tampilkan semua
 
     return matchSearch && matchFilter;
-  })
-  .sort((a,b)=>b.score - a.score);
+  });
+
+  // Sort by score jika user sudah assessment
+  if(my){
+    filtered = filtered.sort((a,b)=>b.score - a.score);
+  }
 
   // If no results
   if(filtered.length === 0){
@@ -571,8 +608,31 @@ function renderKarier(){
 
   // Render each karier
   filtered.forEach(k=>{
-    let scorePercentage = (k.score / 10).toFixed(0);
-    let scoreColor = k.score >= 700 ? '#4CAF50' : k.score >= 500 ? '#FF9800' : '#f44336';
+    // Score hanya muncul jika user sudah assessment
+    let scoreHTML = "";
+    if(my){
+      let scorePercentage = (k.score / 10).toFixed(0);
+      let scoreColor = k.score >= 700 ? '#4CAF50' : k.score >= 500 ? '#FF9800' : '#f44336';
+      
+      scoreHTML = `
+      <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
+        <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
+          <span><b>Match Score:</b></span>
+          <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${k.score}</span>
+          <span style="opacity:0.7;">/ 1000</span>
+        </p>
+        <div style="width: 100%; background: rgba(255,255,255,0.2); height: 6px; border-radius: 3px; margin-top: 8px; overflow: hidden;">
+          <div style="width: ${scorePercentage}%; background: ${scoreColor}; height: 100%; border-radius: 3px; transition: width 0.3s ease;"></div>
+        </div>
+      </div>
+      `;
+    } else {
+      scoreHTML = `
+      <div style="margin-top:15px; padding:12px; background:rgba(158,158,158,0.15); border-left:4px solid #9e9e9e; border-radius:6px;">
+        <p style="margin:0; opacity: 0.7; font-size: 12px;">💡 <i>Kerjakan assessment untuk melihat match score</i></p>
+      </div>
+      `;
+    }
     
     html+=`
     <div class="card">
@@ -582,23 +642,13 @@ function renderKarier(){
     <p><b>💰 Gaji:</b> ${k.gaji}</p>
     <p><b>🎓 Pendidikan:</b> ${k.pend || "Tidak ditentukan"}</p>
     
-    <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
-      <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
-        <span><b>Match Score:</b></span>
-        <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${k.score}</span>
-        <span style="opacity:0.7;">/ 1000</span>
-      </p>
-      <div style="width: 100%; background: rgba(255,255,255,0.2); height: 6px; border-radius: 3px; margin-top: 8px; overflow: hidden;">
-        <div style="width: ${scorePercentage}%; background: ${scoreColor}; height: 100%; border-radius: 3px; transition: width 0.3s ease;"></div>
-      </div>
-    </div>
+    ${scoreHTML}
     
     </div>`;
   });
 
   document.getElementById("karierList").innerHTML=html;
 }
-
 // ==================== PROFILE ====================
 
 /**
