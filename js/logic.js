@@ -753,8 +753,14 @@ function saveRefleksi(){
  * Export semua data user ke PDF
  * Menggunakan html2pdf library
  */
-function exportToPDF(){
+async function exportToPDF(){
   try {
+    // LOAD DATA DARI LOCALSTORAGE KE FORM DULU
+    loadProfile();
+    
+    // TUNGGU DOM terupdate
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     let riasec = localStorage.getItem("riasec") || "Belum ada";
     let mbti = localStorage.getItem("mbti") || "Belum dipilih";
     let vision = JSON.parse(localStorage.getItem("vision") || "{}");
@@ -779,12 +785,13 @@ function exportToPDF(){
         <p><strong>Tipe MBTI:</strong> ${mbti || 'Belum dipilih'}</p>
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🌸 Vision Board</h2>
+      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🪞 Refleksi Diri</h2>
       <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        ${vision.v1 ? `<p><strong>10 tahun lagi:</strong> ${vision.v1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
-        ${vision.v2 ? `<p><strong>Goals utama:</strong> ${vision.v2}</p>` : ''}
-        ${vision.v3 ? `<p><strong>Kebahagiaan:</strong> ${vision.v3}</p>` : ''}
-        ${vision.v4 ? `<p><strong>Nilai hidup:</strong> ${vision.v4}</p>` : ''}
+        ${refleksi.r1 ? `<p><strong>1. Penting:</strong> ${refleksi.r1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
+        ${refleksi.r2 ? `<p><strong>2. Hidup:</strong> ${refleksi.r2}</p>` : ''}
+        ${refleksi.r3 ? `<p><strong>3. Ketakutan:</strong> ${refleksi.r3}</p>` : ''}
+        ${refleksi.r4 ? `<p><strong>4. Kekuatan:</strong> ${refleksi.r4}</p>` : ''}
+        ${refleksi.r5 ? `<p><strong>5. Impian:</strong> ${refleksi.r5}</p>` : ''}
       </div>
       
       <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🚀 Career Mapping</h2>
@@ -795,13 +802,12 @@ function exportToPDF(){
         ${plan.p4 ? `<p><strong>Action:</strong> ${plan.p4}</p>` : ''}
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🪞 Refleksi Diri</h2>
+      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🌸 Vision Board</h2>
       <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        ${refleksi.r1 ? `<p><strong>1. Penting:</strong> ${refleksi.r1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
-        ${refleksi.r2 ? `<p><strong>2. Hidup:</strong> ${refleksi.r2}</p>` : ''}
-        ${refleksi.r3 ? `<p><strong>3. Ketakutan:</strong> ${refleksi.r3}</p>` : ''}
-        ${refleksi.r4 ? `<p><strong>4. Kekuatan:</strong> ${refleksi.r4}</p>` : ''}
-        ${refleksi.r5 ? `<p><strong>5. Impian:</strong> ${refleksi.r5}</p>` : ''}
+        ${vision.v1 ? `<p><strong>10 tahun lagi:</strong> ${vision.v1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
+        ${vision.v2 ? `<p><strong>Goals utama:</strong> ${vision.v2}</p>` : ''}
+        ${vision.v3 ? `<p><strong>Kebahagiaan:</strong> ${vision.v3}</p>` : ''}
+        ${vision.v4 ? `<p><strong>Nilai hidup:</strong> ${vision.v4}</p>` : ''}
       </div>
       
       <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; text-align: center; color: #999; font-size: 12px;">
