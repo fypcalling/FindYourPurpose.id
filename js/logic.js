@@ -750,179 +750,128 @@ function saveRefleksi(){
 // ==================== PDF EXPORT ====================
 
 /**
- * Export ke PDF - Versi Simple yang Pasti Jalan
- * Menggunakan jsPDF langsung tanpa html2pdf
+ * Export ke PDF - Versi Simple Print to PDF
+ * Menggunakan browser native print function
  */
 function exportToPDF(){
   try {
-    // Load data dulu
     loadProfile();
     
-    // Ambil data dari localStorage
     let riasec = localStorage.getItem("riasec") || "Belum ada";
     let mbti = localStorage.getItem("mbti") || "Belum dipilih";
     let vision = JSON.parse(localStorage.getItem("vision") || "{}");
     let plan = JSON.parse(localStorage.getItem("plan") || "{}");
     let refleksi = JSON.parse(localStorage.getItem("refleksi") || "{}");
     
-    // Cek apakah jsPDF ada
-    if(typeof jsPDF === 'undefined'){
-      alert("❌ Library jsPDF belum ter-load. Refresh page dan coba lagi!");
-      return;
-    }
+    // BUAT HTML CONTENT UNTUK PRINT
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; color: #333; background: white; }
+        .container { max-width: 210mm; margin: 0 auto; padding: 20mm; background: white; }
+        h1 { text-align: center; color: #0b1e3d; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; font-size: 14px; margin-bottom: 20px; }
+        hr { border: none; border-top: 2px solid #ddd; margin: 20px 0; }
+        
+        .section { margin-bottom: 25px; }
+        .section h2 { color: #0b1e3d; font-size: 16px; margin-bottom: 10px; padding-left: 15px; border-left: 5px solid #4CAF50; }
+        .section-content { background: #f9f9f9; padding: 15px; border-radius: 5px; margin-left: 0; }
+        
+        .section p { margin: 8px 0; line-height: 1.5; }
+        .section strong { color: #0b1e3d; }
+        
+        .footer { text-align: center; color: #999; font-size: 11px; margin-top: 40px; padding-top: 15px; border-top: 1px solid #ddd; }
+        
+        @media print {
+          body { background: white; }
+          .container { padding: 10mm; }
+          .section { page-break-inside: avoid; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>🌱 FYP - FIND YOUR PURPOSE</h1>
+        <p class="subtitle">Personal Career Assessment Report</p>
+        <hr>
+        
+        <div class="section">
+          <h2>📊 RIASEC Result</h2>
+          <div class="section-content">
+            <p style="text-align: center; font-size: 28px; color: #4CAF50; font-weight: bold; margin: 15px 0;">
+              ${riasec}
+            </p>
+            <p style="text-align: center; color: #666; font-size: 12px;">
+              Kombinasi 3 tipe kepribadian dominanmu berdasarkan Holland Code
+            </p>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>✨ MBTI Type</h2>
+          <div class="section-content">
+            <p><strong>Tipe MBTI:</strong> ${mbti || 'Belum dipilih'}</p>
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>🪞 Refleksi Diri</h2>
+          <div class="section-content">
+            ${refleksi.r1 ? `<p><strong>1. Penting:</strong> ${refleksi.r1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
+            ${refleksi.r2 ? `<p><strong>2. Hidup:</strong> ${refleksi.r2}</p>` : ''}
+            ${refleksi.r3 ? `<p><strong>3. Ketakutan:</strong> ${refleksi.r3}</p>` : ''}
+            ${refleksi.r4 ? `<p><strong>4. Kekuatan:</strong> ${refleksi.r4}</p>` : ''}
+            ${refleksi.r5 ? `<p><strong>5. Impian:</strong> ${refleksi.r5}</p>` : ''}
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>🚀 Career Mapping</h2>
+          <div class="section-content">
+            ${plan.p1 ? `<p><strong>3-6 bulan:</strong> ${plan.p1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
+            ${plan.p2 ? `<p><strong>1-3 tahun:</strong> ${plan.p2}</p>` : ''}
+            ${plan.p3 ? `<p><strong>Skills:</strong> ${plan.p3}</p>` : ''}
+            ${plan.p4 ? `<p><strong>Action:</strong> ${plan.p4}</p>` : ''}
+          </div>
+        </div>
+        
+        <div class="section">
+          <h2>🌸 Vision Board</h2>
+          <div class="section-content">
+            ${vision.v1 ? `<p><strong>10 tahun lagi:</strong> ${vision.v1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
+            ${vision.v2 ? `<p><strong>Goals utama:</strong> ${vision.v2}</p>` : ''}
+            ${vision.v3 ? `<p><strong>Kebahagiaan:</strong> ${vision.v3}</p>` : ''}
+            ${vision.v4 ? `<p><strong>Nilai hidup:</strong> ${vision.v4}</p>` : ''}
+          </div>
+        </div>
+        
+        <div class="footer">
+          <p>Generated on ${new Date().toLocaleDateString('id-ID')} at ${new Date().toLocaleTimeString('id-ID')}</p>
+          <p>FYP - Find Your Purpose © 2026</p>
+        </div>
+      </div>
+    </body>
+    </html>
+    `;
     
-    // BUAT PDF DENGAN jsPDF LANGSUNG (text based, bukan screenshot)
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4'
-    });
+    // BUKA WINDOW BARU DAN PRINT
+    let printWindow = window.open('', '', 'width=800,height=600');
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
     
-    let yPos = 20;
-    const pageHeight = pdf.internal.pageSize.getHeight();
-    const margin = 20;
-    const lineHeight = 7;
+    // TUNGGU SEBENTAR BARU PRINT
+    setTimeout(() => {
+      printWindow.print();
+    }, 500);
     
-    // TITLE
-    pdf.setFontSize(20);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('🌱 FYP - FIND YOUR PURPOSE', margin, yPos);
-    yPos += 10;
-    
-    pdf.setFontSize(11);
-    pdf.setTextColor(100, 100, 100);
-    pdf.text('Personal Career Assessment Report', margin, yPos);
-    yPos += 15;
-    
-    // RIASEC
-    pdf.setFontSize(14);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('📊 RIASEC Result', margin, yPos);
-    yPos += 10;
-    
-    pdf.setFontSize(24);
-    pdf.setTextColor(76, 175, 80);
-    pdf.text(riasec, margin, yPos);
-    yPos += 12;
-    
-    pdf.setFontSize(10);
-    pdf.setTextColor(100, 100, 100);
-    pdf.text('Kombinasi 3 tipe kepribadian dominanmu', margin, yPos);
-    yPos += 15;
-    
-    // MBTI
-    pdf.setFontSize(14);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('✨ MBTI Type', margin, yPos);
-    yPos += 8;
-    
-    pdf.setFontSize(11);
-    pdf.setTextColor(0, 0, 0);
-    pdf.text(`Tipe MBTI: ${mbti}`, margin, yPos);
-    yPos += 15;
-    
-    // REFLEKSI DIRI
-    pdf.setFontSize(14);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('🪞 Refleksi Diri', margin, yPos);
-    yPos += 10;
-    
-    pdf.setFontSize(10);
-    if(refleksi.r1) {
-      yPos = addWrappedText(pdf, `1. Penting: ${refleksi.r1}`, margin, yPos, pageHeight, margin);
-    }
-    if(refleksi.r2) {
-      yPos = addWrappedText(pdf, `2. Hidup: ${refleksi.r2}`, margin, yPos, pageHeight, margin);
-    }
-    if(refleksi.r3) {
-      yPos = addWrappedText(pdf, `3. Ketakutan: ${refleksi.r3}`, margin, yPos, pageHeight, margin);
-    }
-    if(refleksi.r4) {
-      yPos = addWrappedText(pdf, `4. Kekuatan: ${refleksi.r4}`, margin, yPos, pageHeight, margin);
-    }
-    if(refleksi.r5) {
-      yPos = addWrappedText(pdf, `5. Impian: ${refleksi.r5}`, margin, yPos, pageHeight, margin);
-    }
-    yPos += 5;
-    
-    // CAREER MAPPING
-    pdf.setFontSize(14);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('🚀 Career Mapping', margin, yPos);
-    yPos += 10;
-    
-    pdf.setFontSize(10);
-    if(plan.p1) {
-      yPos = addWrappedText(pdf, `3-6 bulan: ${plan.p1}`, margin, yPos, pageHeight, margin);
-    }
-    if(plan.p2) {
-      yPos = addWrappedText(pdf, `1-3 tahun: ${plan.p2}`, margin, yPos, pageHeight, margin);
-    }
-    if(plan.p3) {
-      yPos = addWrappedText(pdf, `Skills: ${plan.p3}`, margin, yPos, pageHeight, margin);
-    }
-    if(plan.p4) {
-      yPos = addWrappedText(pdf, `Action: ${plan.p4}`, margin, yPos, pageHeight, margin);
-    }
-    yPos += 5;
-    
-    // VISION BOARD
-    pdf.setFontSize(14);
-    pdf.setTextColor(11, 30, 61);
-    pdf.text('🌸 Vision Board', margin, yPos);
-    yPos += 10;
-    
-    pdf.setFontSize(10);
-    if(vision.v1) {
-      yPos = addWrappedText(pdf, `10 tahun lagi: ${vision.v1}`, margin, yPos, pageHeight, margin);
-    }
-    if(vision.v2) {
-      yPos = addWrappedText(pdf, `Goals utama: ${vision.v2}`, margin, yPos, pageHeight, margin);
-    }
-    if(vision.v3) {
-      yPos = addWrappedText(pdf, `Kebahagiaan: ${vision.v3}`, margin, yPos, pageHeight, margin);
-    }
-    if(vision.v4) {
-      yPos = addWrappedText(pdf, `Nilai hidup: ${vision.v4}`, margin, yPos, pageHeight, margin);
-    }
-    
-    // FOOTER
-    pdf.setFontSize(9);
-    pdf.setTextColor(150, 150, 150);
-    pdf.text(
-      `Generated on ${new Date().toLocaleDateString('id-ID')} | FYP © 2026`,
-      margin,
-      pageHeight - margin
-    );
-    
-    // SAVE
-    pdf.save('FYP_Result_' + new Date().toLocaleDateString('id-ID').replace(/\//g, '-') + '.pdf');
-    
-    alert("✅ PDF berhasil diunduh!");
+    alert("✅ Dialog print terbuka!\n\nPilih 'Save as PDF' sebagai printer untuk download PDF.");
     
   } catch(error) {
-    console.error("PDF Error:", error);
+    console.error("Export Error:", error);
     alert("❌ Error: " + error.message);
   }
-}
-
-/**
- * Helper function untuk text wrapping di PDF
- */
-function addWrappedText(pdf, text, x, y, pageHeight, margin) {
-  const maxWidth = 170; // lebar maksimal text
-  const lines = pdf.splitTextToSize(text, maxWidth);
-  pdf.text(lines, x, y);
-  
-  // Hitung tinggi yang digunakan
-  const lineHeight = 5;
-  let newY = y + (lines.length * lineHeight);
-  
-  // Cek apakah perlu page baru
-  if(newY > pageHeight - margin) {
-    pdf.addPage();
-    newY = margin;
-  }
-  
-  return newY + 3;
 }
