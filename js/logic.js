@@ -751,7 +751,7 @@ function saveRefleksi(){
 
 /**
  * Export semua data user ke PDF
- * Menggunakan html2pdf library
+ * Membuat elemen temporary di DOM untuk capture
  */
 async function exportToPDF(){
   try {
@@ -759,7 +759,7 @@ async function exportToPDF(){
     loadProfile();
     
     // TUNGGU DOM terupdate
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 300));
     
     let riasec = localStorage.getItem("riasec") || "Belum ada";
     let mbti = localStorage.getItem("mbti") || "Belum dipilih";
@@ -767,70 +767,116 @@ async function exportToPDF(){
     let plan = JSON.parse(localStorage.getItem("plan") || "{}");
     let refleksi = JSON.parse(localStorage.getItem("refleksi") || "{}");
     
-    let htmlContent = `
-    <div style="font-family: Arial; max-width: 210mm; margin: auto; padding: 20mm;">
-      <h1 style="text-align: center; color: #0b1e3d; margin-bottom: 10px;">🌱 FYP - FIND YOUR PURPOSE</h1>
-      <p style="text-align: center; color: #666; margin-bottom: 30px; font-size: 16px;">Personal Career Assessment Report</p>
-      
-      <hr style="border: 1px solid #ddd; margin: 30px 0;">
-      
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin-bottom: 15px;">📊 RIASEC Result</h2>
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50; text-align: center;">
-        <h3 style="font-size: 36px; color: #0b1e3d; margin: 0;">${riasec}</h3>
-        <p style="color: #666; margin-top: 10px; font-size: 14px;">Kombinasi 3 tipe kepribadian dominanmu berdasarkan Holland Code</p>
+    // BUAT ELEMENT TEMPORARY UNTUK CAPTURE
+    let tempDiv = document.createElement('div');
+    tempDiv.id = 'pdf-temp-content';
+    tempDiv.style.cssText = 'position: absolute; left: -9999px; width: 800px; background: white; padding: 40px; font-family: Arial;';
+    
+    tempDiv.innerHTML = `
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #0b1e3d; margin: 0; font-size: 28px;">🌱 FYP - FIND YOUR PURPOSE</h1>
+        <p style="color: #666; margin: 10px 0 0 0; font-size: 14px;">Personal Career Assessment Report</p>
+        <hr style="border: none; border-top: 2px solid #ddd; margin: 20px 0;">
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">✨ MBTI Type</h2>
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        <p><strong>Tipe MBTI:</strong> ${mbti || 'Belum dipilih'}</p>
+      <div style="margin-bottom: 30px; border-left: 5px solid #4CAF50; padding-left: 15px;">
+        <h2 style="color: #0b1e3d; margin: 0 0 15px 0; font-size: 18px;">📊 RIASEC Result</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; text-align: center;">
+          <h3 style="font-size: 36px; color: #4CAF50; margin: 0; font-weight: bold;">${riasec}</h3>
+          <p style="color: #666; margin: 10px 0 0 0; font-size: 13px;">Kombinasi 3 tipe kepribadian dominanmu berdasarkan Holland Code</p>
+        </div>
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🪞 Refleksi Diri</h2>
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        ${refleksi.r1 ? `<p><strong>1. Penting:</strong> ${refleksi.r1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
-        ${refleksi.r2 ? `<p><strong>2. Hidup:</strong> ${refleksi.r2}</p>` : ''}
-        ${refleksi.r3 ? `<p><strong>3. Ketakutan:</strong> ${refleksi.r3}</p>` : ''}
-        ${refleksi.r4 ? `<p><strong>4. Kekuatan:</strong> ${refleksi.r4}</p>` : ''}
-        ${refleksi.r5 ? `<p><strong>5. Impian:</strong> ${refleksi.r5}</p>` : ''}
+      <div style="margin-bottom: 30px; border-left: 5px solid #FF9800; padding-left: 15px;">
+        <h2 style="color: #0b1e3d; margin: 0 0 15px 0; font-size: 18px;">✨ MBTI Type</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+          <p style="margin: 0;"><strong>Tipe MBTI:</strong> ${mbti || 'Belum dipilih'}</p>
+        </div>
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🚀 Career Mapping</h2>
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        ${plan.p1 ? `<p><strong>3-6 bulan:</strong> ${plan.p1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
-        ${plan.p2 ? `<p><strong>1-3 tahun:</strong> ${plan.p2}</p>` : ''}
-        ${plan.p3 ? `<p><strong>Skills:</strong> ${plan.p3}</p>` : ''}
-        ${plan.p4 ? `<p><strong>Action:</strong> ${plan.p4}</p>` : ''}
+      <div style="margin-bottom: 30px; border-left: 5px solid #2196F3; padding-left: 15px;">
+        <h2 style="color: #0b1e3d; margin: 0 0 15px 0; font-size: 18px;">🪞 Refleksi Diri</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+          ${refleksi.r1 ? `<p style="margin: 5px 0;"><strong>1. Penting:</strong> ${refleksi.r1}</p>` : '<p style="margin: 5px 0; color: #999; font-style: italic;">Belum ada data</p>'}
+          ${refleksi.r2 ? `<p style="margin: 5px 0;"><strong>2. Hidup:</strong> ${refleksi.r2}</p>` : ''}
+          ${refleksi.r3 ? `<p style="margin: 5px 0;"><strong>3. Ketakutan:</strong> ${refleksi.r3}</p>` : ''}
+          ${refleksi.r4 ? `<p style="margin: 5px 0;"><strong>4. Kekuatan:</strong> ${refleksi.r4}</p>` : ''}
+          ${refleksi.r5 ? `<p style="margin: 5px 0;"><strong>5. Impian:</strong> ${refleksi.r5}</p>` : ''}
+        </div>
       </div>
       
-      <h2 style="color: #0b1e3d; border-left: 5px solid #0b1e3d; padding-left: 15px; margin: 30px 0 15px 0;">🌸 Vision Board</h2>
-      <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-        ${vision.v1 ? `<p><strong>10 tahun lagi:</strong> ${vision.v1}</p>` : '<p style="color: #999; font-style: italic;">Belum ada data</p>'}
-        ${vision.v2 ? `<p><strong>Goals utama:</strong> ${vision.v2}</p>` : ''}
-        ${vision.v3 ? `<p><strong>Kebahagiaan:</strong> ${vision.v3}</p>` : ''}
-        ${vision.v4 ? `<p><strong>Nilai hidup:</strong> ${vision.v4}</p>` : ''}
+      <div style="margin-bottom: 30px; border-left: 5px solid #9C27B0; padding-left: 15px;">
+        <h2 style="color: #0b1e3d; margin: 0 0 15px 0; font-size: 18px;">🚀 Career Mapping</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+          ${plan.p1 ? `<p style="margin: 5px 0;"><strong>3-6 bulan:</strong> ${plan.p1}</p>` : '<p style="margin: 5px 0; color: #999; font-style: italic;">Belum ada data</p>'}
+          ${plan.p2 ? `<p style="margin: 5px 0;"><strong>1-3 tahun:</strong> ${plan.p2}</p>` : ''}
+          ${plan.p3 ? `<p style="margin: 5px 0;"><strong>Skills:</strong> ${plan.p3}</p>` : ''}
+          ${plan.p4 ? `<p style="margin: 5px 0;"><strong>Action:</strong> ${plan.p4}</p>` : ''}
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 30px; border-left: 5px solid #E91E63; padding-left: 15px;">
+        <h2 style="color: #0b1e3d; margin: 0 0 15px 0; font-size: 18px;">🌸 Vision Board</h2>
+        <div style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+          ${vision.v1 ? `<p style="margin: 5px 0;"><strong>10 tahun lagi:</strong> ${vision.v1}</p>` : '<p style="margin: 5px 0; color: #999; font-style: italic;">Belum ada data</p>'}
+          ${vision.v2 ? `<p style="margin: 5px 0;"><strong>Goals utama:</strong> ${vision.v2}</p>` : ''}
+          ${vision.v3 ? `<p style="margin: 5px 0;"><strong>Kebahagiaan:</strong> ${vision.v3}</p>` : ''}
+          ${vision.v4 ? `<p style="margin: 5px 0;"><strong>Nilai hidup:</strong> ${vision.v4}</p>` : ''}
+        </div>
       </div>
       
       <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd; text-align: center; color: #999; font-size: 12px;">
-        <p>Generated on ${new Date().toLocaleDateString('id-ID')} at ${new Date().toLocaleTimeString('id-ID')}</p>
-        <p>FYP - Find Your Purpose © 2026</p>
+        <p style="margin: 5px 0;">Generated on ${new Date().toLocaleDateString('id-ID')} at ${new Date().toLocaleTimeString('id-ID')}</p>
+        <p style="margin: 5px 0;">FYP - Find Your Purpose © 2026</p>
       </div>
-    </div>
     `;
     
-    const opt = {
-      margin: 10,
-      filename: 'FYP_Result_' + new Date().toLocaleDateString('id-ID').replace(/\//g, '-') + '.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
-    };
+    // APPEND KE BODY SUPAYA BISA DI-CAPTURE
+    document.body.appendChild(tempDiv);
     
-    html2pdf().set(opt).from(htmlContent).save();
+    // TUNGGU SEBENTAR BIAR RENDER
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // CAPTURE DENGAN HTML2CANVAS
+    const canvas = await html2canvas(tempDiv, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff'
+    });
+    
+    // HAPUS ELEMENT TEMPORARY
+    document.body.removeChild(tempDiv);
+    
+    // CONVERT KE PDF
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4'
+    });
+    
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    let heightLeft = imgHeight;
+    let position = 0;
+    
+    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+    heightLeft -= 297;
+    
+    while (heightLeft >= 0) {
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= 297;
+    }
+    
+    pdf.save('FYP_Result_' + new Date().toLocaleDateString('id-ID').replace(/\//g, '-') + '.pdf');
     
     alert("✅ PDF berhasil diunduh!\n\n💡 File tersimpan di folder Downloads kamu.");
     
   } catch(error) {
     console.error("PDF Error:", error);
-    alert("❌ Error saat membuat PDF. Coba lagi!\n\nError: " + error.message);
+    alert("❌ Error saat membuat PDF!\n\nError: " + error.message + "\n\nCoba buka console (F12) untuk debug lebih lanjut.");
   }
 }
