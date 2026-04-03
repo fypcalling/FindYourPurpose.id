@@ -12,7 +12,7 @@ function loadTipeDetail(){
   RIASEC merupakan model tipologi kepribadian dan minat karier yang dikembangkan oleh <b>John L. Holland</b>.
   Model ini menjelaskan bahwa individu cenderung merasa lebih nyaman, termotivasi, dan berfungsi secara optimal 
   ketika mereka berada dalam lingkungan yang sesuai dengan karakteristik kepribadian dan minatnya. 
-  Prinsip utama dari teori ini dikenal sebagai person–environment fit, yaitu kesesuaian antara individu dan lingkungan.
+  Prinsip utama dari teori ini dikenal sebagai <i>person–environment fit</i>, yaitu kesesuaian antara individu dan lingkungan.
   </p>
 
   <p style="text-align: justify;">
