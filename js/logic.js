@@ -428,11 +428,6 @@ function loadTipeDetail(){
 
 // ==================== JURUSAN ====================
 
-/**
- * Render daftar jurusan dengan filter dan search
- * User bisa search/filter ALL types meskipun belum assessment
- * Tapi filter "my" butuh assessment dulu
- */
 function renderJurusan(){
   let search=document.getElementById("searchJurusan").value.toLowerCase();
   let filter=document.getElementById("filterJurusan").value;
@@ -460,14 +455,11 @@ function renderJurusan(){
     let matchFilter = true;
 
     if(filter==="my"){
-      // Jika "my" pilih, gunakan scoring
       matchFilter = true;
     }
     else if(filter!=="all"){
-      // Filter by type (R, I, A, S, E, C)
       matchFilter = j.tipe === filter;
     }
-    // Jika "all", tampilkan semua
 
     return matchSearch && matchFilter;
   });
@@ -478,13 +470,22 @@ function renderJurusan(){
       let score = calculateRIASECScore(userCode, j.cocok);
       return {...j, score};
     }).sort((a,b)=>b.score - a.score);
+
+    // FILTER HANYA SCORE 700+ untuk "my"
+    if(filter==="my"){
+      list = list.filter(j => j.score >= 700);
+    }
   }
 
   // If no results
   if(list.length === 0){
+    let emptyMsg = filter==="my" ? 
+      "Tidak ada jurusan dengan match score 700+. Coba filter lain atau explore semua jurusan!" :
+      "Tidak ada jurusan yang sesuai dengan filter.";
+    
     document.getElementById("jurusanList").innerHTML = `
       <div class="card" style="text-align: center;">
-        <p style="opacity: 0.7;">Tidak ada jurusan yang sesuai dengan filter.</p>
+        <p style="opacity: 0.7;">📭 ${emptyMsg}</p>
       </div>
     `;
     return;
@@ -492,7 +493,6 @@ function renderJurusan(){
 
   // Render each jurusan
   list.forEach(j=>{
-    // Score hanya muncul jika user sudah assessment
     let scoreHTML = "";
     if(my){
       let scorePercentage = (j.score / 10).toFixed(0);
@@ -501,7 +501,7 @@ function renderJurusan(){
       scoreHTML = `
       <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
         <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
-          <span><b>Match Score:</b></span>
+          <span><b>✨ Match Score:</b></span>
           <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${j.score}</span>
           <span style="opacity:0.7;">/ 1000</span>
         </p>
@@ -520,10 +520,10 @@ function renderJurusan(){
     
     html+=`
     <div class="card">
-    <h3>${j.name}</h3>
-    <p><b>Tipe RIASEC:</b> ${j.cocok.join('-')}</p>
-    <p style="text-align: justify; line-height: 1.6;"><b>Deskripsi:</b> ${j.desc}</p>
-    <p><b>Kampus Terkemuka:</b> ${j.kampus}</p>
+    <h3>🎓 ${j.name}</h3>
+    <p><b>Tipe RIASEC:</b> <span style="background: rgba(76,175,80,0.2); padding: 4px 8px; border-radius: 4px; font-weight: 600;">${j.cocok.join('-')}</span></p>
+    <p style="text-align: justify; line-height: 1.6;"><b>📝 Deskripsi:</b> ${j.desc}</p>
+    <p><b>🏫 Kampus Terkemuka:</b> ${j.kampus}</p>
     <details style="margin-top: 10px; opacity: 0.85;">
       <summary style="cursor: pointer; font-weight: 500;">📚 Sub-Major</summary>
       <p style="margin-top: 8px; margin-left: 10px;">${j.sub || "-"}</p>
@@ -543,11 +543,6 @@ function renderJurusan(){
 
 // ==================== KARIER ====================
 
-/**
- * Render daftar karier dengan filter dan search
- * User bisa search/filter ALL types meskipun belum assessment
- * Tapi filter "my" butuh assessment dulu
- */
 function renderKarier(){
   let search=document.getElementById("searchKarier").value.toLowerCase();
   let filter=document.getElementById("filterKarier").value;
@@ -570,7 +565,6 @@ function renderKarier(){
 
   let filtered = karierData
   .map(k=>{
-    // Calculate score hanya jika user sudah assessment
     let score = my ? calculateRIASECScore(top3, k.cocok) : 0;
     return {...k, score};
   })
@@ -579,14 +573,11 @@ function renderKarier(){
     let matchFilter = true;
 
     if(filter==="my"){
-      // Jika "my" pilih, filter by score > 0
-      matchFilter = k.score > 0;
+      matchFilter = k.score >= 700; // HANYA SCORE 700+
     }
     else if(filter!=="all"){
-      // Filter by type (R, I, A, S, E, C)
       matchFilter = k.tipe === filter;
     }
-    // Jika "all", tampilkan semua
 
     return matchSearch && matchFilter;
   });
@@ -598,9 +589,13 @@ function renderKarier(){
 
   // If no results
   if(filtered.length === 0){
+    let emptyMsg = filter==="my" ? 
+      "Tidak ada karier dengan match score 700+. Coba filter lain atau explore semua karier!" :
+      "Tidak ada karier yang sesuai dengan filter.";
+    
     document.getElementById("karierList").innerHTML = `
       <div class="card" style="text-align: center;">
-        <p style="opacity: 0.7;">Tidak ada karier yang sesuai dengan filter.</p>
+        <p style="opacity: 0.7;">📭 ${emptyMsg}</p>
       </div>
     `;
     return;
@@ -608,7 +603,6 @@ function renderKarier(){
 
   // Render each karier
   filtered.forEach(k=>{
-    // Score hanya muncul jika user sudah assessment
     let scoreHTML = "";
     if(my){
       let scorePercentage = (k.score / 10).toFixed(0);
@@ -617,7 +611,7 @@ function renderKarier(){
       scoreHTML = `
       <div style="margin-top:15px; padding:12px; background:rgba(76,175,80,0.15); border-left:4px solid ${scoreColor}; border-radius:6px;">
         <p style="margin:0; display: flex; justify-content: space-between; align-items: center;">
-          <span><b>Match Score:</b></span>
+          <span><b>✨ Match Score:</b></span>
           <span style="color:${scoreColor}; font-size:1.3em; font-weight:700;">${k.score}</span>
           <span style="opacity:0.7;">/ 1000</span>
         </p>
@@ -636,8 +630,8 @@ function renderKarier(){
     
     html+=`
     <div class="card">
-    <h3>${k.name}</h3>
-    <p><b>Tipe RIASEC:</b> ${k.cocok.join('-')}</p>
+    <h3>💼 ${k.name}</h3>
+    <p><b>Tipe RIASEC:</b> <span style="background: rgba(76,175,80,0.2); padding: 4px 8px; border-radius: 4px; font-weight: 600;">${k.cocok.join('-')}</span></p>
     <p style="text-align: justify; line-height: 1.6;">${k.desc}</p>
     <p><b>💰 Gaji:</b> ${k.gaji}</p>
     <p><b>🎓 Pendidikan:</b> ${k.pend || "Tidak ditentukan"}</p>
