@@ -21,9 +21,15 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- jsPDF untuk PDF generation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
+<!-- jsPDF untuk PDF generation - Multiple CDN Fallback -->
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script>
+  // Fallback jika CDN tidak jalan
+  if (typeof jsPDF === 'undefined') {
+    console.warn('jsPDF from jsdelivr failed, trying unpkg...');
+    document.write('<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"><\/script>');
+  }
+</script>
 <link rel="stylesheet" href="css/style.css">
 
 <script type="application/ld+json">
