@@ -772,7 +772,6 @@ function exportToPDF(){
     }
     
     // BUAT PDF DENGAN jsPDF LANGSUNG (text based, bukan screenshot)
-    const { jsPDF } = window.jspdf;
     const pdf = new jsPDF({
       orientation: 'portrait',
       unit: 'mm',
