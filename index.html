@@ -3,54 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Platform eksplorasi karier berbasis RIASEC untuk membantu siswa menemukan minat, kepribadian, dan pilihan karier yang sesuai.">
-<meta name="keywords" content="karier, RIASEC, assessment, kepribadian, jurusan, minat, Holland Code">
-<meta name="author" content="FYP Team">
-<meta name="theme-color" content="#0b1e3d">
-<meta property="og:title" content="FYP - Find Your Purpose">
-<meta property="og:description" content="Eksplorasi karier dengan RIASEC assessment yang akurat dan terpercaya">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://fyp.example.com">
-
-<title>FYP - Find Your Purpose | Career Assessment Platform</title>
-
+<title>FYP - Find Your Purpose</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🌱</text></svg>">
-
-<link rel="preload" href="css/style.css" as="style">
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;600&display=swap" as="style">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- jsPDF untuk PDF generation - Multiple CDN Fallback -->
-<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script>
-  // Fallback jika CDN tidak jalan
-  if (typeof jsPDF === 'undefined') {
-    console.warn('jsPDF from jsdelivr failed, trying unpkg...');
-    document.write('<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"><\/script>');
-  }
-</script>
 <link rel="stylesheet" href="css/style.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "FYP - Find Your Purpose",
-  "description": "Platform eksplorasi karier berbasis psikologi RIASEC",
-  "applicationCategory": "EducationalApplication",
-  "offers": {
-    "@type": "Offer",
-    "price": "0"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "FYP Team"
-  }
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
-
 <body>
 
 <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -58,37 +15,27 @@
 <nav>
 <div class="nav-header">
 <h2>FYP</h2>
-<button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu" aria-expanded="false" type="button">☰</button>
+<button class="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu">☰</button>
 </div>
-
 <div id="navMenu" class="nav-links">
-<button type="button" onclick="show('home')" aria-label="Go to home page">Home</button>
-<button type="button" onclick="show('test')" aria-label="Start career assessment">Assessment</button>
-<button type="button" onclick="show('tipe')" aria-label="View personality type">Tipe</button>
-<button type="button" onclick="show('jurusan')" aria-label="Explore majors">Jurusan</button>
-<button type="button" onclick="show('karier')" aria-label="Explore careers">Karier</button>
-<button type="button" onclick="show('explore')" aria-label="Explore resources">Explore</button>
-<button type="button" onclick="show('profile')" aria-label="Go to my FYP space">My FYP Space</button>
+<button onclick="show('home')">Home</button>
+<button onclick="show('test')">Assessment</button>
+<button onclick="show('tipe')">Tipe</button>
+<button onclick="show('jurusan')">Jurusan</button>
+<button onclick="show('karier')">Karier</button>
+<button onclick="show('explore')">Explore</button>
+<button onclick="show('profile')">My FYP Space</button>
 </div>
 </nav>
 
 <main id="main-content" class="container">
 
 <!-- HOME -->
-<div id="home" style="background: transparent !important;">
+<div id="home">
 <div class="hero">
 <h1>Find Your Purpose (FYP) 🌱</h1>
-
-<p>
-FYP adalah platform eksplorasi karier berbasis psikologi yang membantu siswa 
-memahami minat, kepribadian, dan nilai hidup mereka.
-</p>
-
-<p>
-Melalui assessment RIASEC, kamu akan mendapatkan gambaran tipe kepribadianmu, 
-rekomendasi jurusan, serta pilihan karier yang sesuai.
-</p>
-
+<p>FYP adalah platform eksplorasi karier berbasis psikologi yang membantu siswa memahami minat, kepribadian, dan nilai hidup mereka.</p>
+<p>Melalui assessment RIASEC, kamu akan mendapatkan gambaran tipe kepribadianmu, rekomendasi jurusan, serta pilihan karier yang sesuai.</p>
 <div class="card">
 <h3>Cara Menggunakan:</h3>
 <p>1. Kerjakan assessment di menu "Assessment"</p>
@@ -97,74 +44,49 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 <p>4. Isi vision & reflection di "My FYP Space"</p>
 <p>5. Export hasil sebagai PDF</p>
 </div>
-
 </div>
 </div>
 
 <!-- TEST -->
-<div id="test" class="hidden" style="background: transparent !important;">
+<div id="test" class="hidden">
 <h2>Career Assessment</h2>
-
 <div class="card" style="background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50;">
-  <h3>📋 Panduan Menjawab</h3>
-  <p><strong>Skala Penilaian:</strong></p>
-  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0;">
-    <div style="background: rgba(244, 67, 54, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">1</p>
-      <p style="font-size: 12px; margin: 5px 0 0 0;">Sangat Tidak Cocok</p>
-    </div>
-    <div style="background: rgba(255, 152, 0, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">2</p>
-      <p style="font-size: 12px; margin: 5px 0 0 0;">Tidak Cocok</p>
-    </div>
-    <div style="background: rgba(255, 193, 7, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">3</p>
-      <p style="font-size: 12px; margin: 5px 0 0 0;">Netral</p>
-    </div>
-    <div style="background: rgba(76, 175, 80, 0.2); padding: 10px; border-radius: 8px; text-align: center;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">4</p>
-      <p style="font-size: 12px; margin: 5px 0 0 0;">Cocok</p>
-    </div>
-    <div style="background: rgba(76, 175, 80, 0.4); padding: 10px; border-radius: 8px; text-align: center;">
-      <p style="font-size: 20px; font-weight: bold; margin: 0;">5</p>
-      <p style="font-size: 12px; margin: 5px 0 0 0;">Sangat Cocok</p>
-    </div>
-  </div>
-  <p style="opacity: 0.85; margin: 10px 0 0 0;">Jawab dengan jujur untuk hasil yang akurat. Tidak ada jawaban yang salah atau benar.</p>
+<h3>📋 Panduan Menjawab</h3>
+<p><strong>Skala Penilaian:</strong></p>
+<div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 15px 0;">
+<div style="background: rgba(244, 67, 54, 0.2); padding: 10px; border-radius: 8px; text-align: center;"><p style="font-size: 20px; font-weight: bold; margin: 0;">1</p><p style="font-size: 12px; margin: 5px 0 0 0;">Sangat Tidak Cocok</p></div>
+<div style="background: rgba(255, 152, 0, 0.2); padding: 10px; border-radius: 8px; text-align: center;"><p style="font-size: 20px; font-weight: bold; margin: 0;">2</p><p style="font-size: 12px; margin: 5px 0 0 0;">Tidak Cocok</p></div>
+<div style="background: rgba(255, 193, 7, 0.2); padding: 10px; border-radius: 8px; text-align: center;"><p style="font-size: 20px; font-weight: bold; margin: 0;">3</p><p style="font-size: 12px; margin: 5px 0 0 0;">Netral</p></div>
+<div style="background: rgba(76, 175, 80, 0.2); padding: 10px; border-radius: 8px; text-align: center;"><p style="font-size: 20px; font-weight: bold; margin: 0;">4</p><p style="font-size: 12px; margin: 5px 0 0 0;">Cocok</p></div>
+<div style="background: rgba(76, 175, 80, 0.4); padding: 10px; border-radius: 8px; text-align: center;"><p style="font-size: 20px; font-weight: bold; margin: 0;">5</p><p style="font-size: 12px; margin: 5px 0 0 0;">Sangat Cocok</p></div>
 </div>
-
-<!-- Progress Bar -->
+</div>
 <div style="margin: 20px 0;">
-  <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-    <p style="font-weight: 600; margin: 0;">Progress Assessment</p>
-    <p style="margin: 0;"><span id="progressText">0</span> / <span id="totalQuestions">0</span></p>
-  </div>
-  <div style="background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; height: 8px;">
-    <div id="progressBar" style="background: linear-gradient(90deg, #4CAF50, #66BB6A); height: 100%; width: 0%; transition: width 0.3s ease;"></div>
-  </div>
+<div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+<p style="font-weight: 600; margin: 0;">Progress</p>
+<p style="margin: 0;"><span id="progressText">0</span> / <span id="totalQuestions">0</span></p>
 </div>
-
+<div style="background: rgba(255,255,255,0.2); border-radius: 10px; overflow: hidden; height: 8px;">
+<div id="progressBar" style="background: linear-gradient(90deg, #4CAF50, #66BB6A); height: 100%; width: 0%;"></div>
+</div>
+</div>
 <div id="questions"></div>
-
 <hr style="margin:30px 0">
-
-<button class="main" type="button" onclick="calculate()">Lihat Hasil</button>
+<button class="main" onclick="calculate()">Lihat Hasil</button>
 <div id="hasil" style="margin-top:30px;"></div>
 </div>
 
 <!-- TIPE -->
-<div id="tipe" class="hidden" style="background: transparent !important;">
+<div id="tipe" class="hidden">
 <h2>Tipe Kamu</h2>
-<div id="tipeDetail" style="background: transparent !important;"></div>
+<div id="tipeDetail"></div>
 </div>
 
 <!-- JURUSAN -->
-<div id="jurusan" class="hidden" style="background: transparent !important;">
+<div id="jurusan" class="hidden">
 <h2>Jurusan</h2>
-
-<input id="searchJurusan" placeholder="Cari jurusan..." onkeyup="renderJurusan()" type="text" aria-label="Search majors">
-
-<select id="filterJurusan" onchange="renderJurusan()" aria-label="Filter by RIASEC type">
+<input id="searchJurusan" placeholder="Cari jurusan..." onkeyup="renderJurusan()" type="text">
+<select id="filterJurusan" onchange="renderJurusan()">
 <option value="all">Semua</option>
 <option value="my">Sesuai Hasil Saya</option>
 <option value="R">Realistic</option>
@@ -174,17 +96,14 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 <option value="E">Enterprising</option>
 <option value="C">Conventional</option>
 </select>
-
-<div id="jurusanList" style="background: transparent !important;"></div>
+<div id="jurusanList"></div>
 </div>
 
 <!-- KARIER -->
-<div id="karier" class="hidden" style="background: transparent !important;">
+<div id="karier" class="hidden">
 <h2>Karier</h2>
-
-<input id="searchKarier" placeholder="Cari karier..." onkeyup="renderKarier()" type="text" aria-label="Search careers">
-
-<select id="filterKarier" onchange="renderKarier()" aria-label="Filter by RIASEC type">
+<input id="searchKarier" placeholder="Cari karier..." onkeyup="renderKarier()" type="text">
+<select id="filterKarier" onchange="renderKarier()">
 <option value="all">Semua</option>
 <option value="my">Sesuai Hasil Saya</option>
 <option value="R">Realistic</option>
@@ -194,180 +113,88 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 <option value="E">Enterprising</option>
 <option value="C">Conventional</option>
 </select>
-
-<div id="karierList" style="background: transparent !important;"></div>
+<div id="karierList"></div>
 </div>
 
 <!-- EXPLORE -->
-<div id="explore" class="hidden" style="background: transparent !important;">
+<div id="explore" class="hidden">
 <h2>Explore Resources</h2>
-
-<p style="opacity:0.8;">
-Temukan informasi terbaru tentang jurusan, karier, dan dunia kerja melalui konten edukatif dari berbagai platform.
-</p>
-
+<p style="opacity:0.8;">Temukan informasi terbaru tentang jurusan, karier, dan dunia kerja.</p>
 <div class="card">
 <h3>Instagram</h3>
 <ul>
-<li><a href="https://www.instagram.com/ruangguru/" target="_blank" rel="noopener noreferrer">Ruangguru</a></li>
-<li><a href="https://www.instagram.com/masukkampus?igsh=MTF2OW1kYjRnNWM2aQ==" target="_blank" rel="noopener noreferrer">masukkampus</a></li>
-<li><a href="https://www.instagram.com/balqisleemy?igsh=eGk0ZDdodmtnc3A4" target="_blank" rel="noopener noreferrer">balqisleemy</a></li>
-<li><a href="https://www.instagram.com/utbk_snbt?igsh=d3c0cGptejd0NTl5" target="_blank" rel="noopener noreferrer">utbk_snbt</a></li>
-<li><a href="https://www.instagram.com/masukptn?igsh=d3BwZWJubnFqYXl1" target="_blank" rel="noopener noreferrer">masukptn</a></li>
-<li><a href="https://www.instagram.com/kobieducation?igsh=bDFrNjh0dDA3N2l1" target="_blank" rel="noopener noreferrer">kobieducation</a></li>
-<li><a href="https://www.instagram.com/ieltspresso?igsh=cnFreWowdmo0dXlv" target="_blank" rel="noopener noreferrer">ieltspresso</a></li>
-<li><a href="https://www.instagram.com/arroyanpram?igsh=MXB4dzlwM3o4djJ1MQ==" target="_blank" rel="noopener noreferrer">arroyanpram</a></li>
-<li><a href="https://www.instagram.com/studentexchangeabroad?igsh=MXY3MDNib2VqZ3kyaA==" target="_blank" rel="noopener noreferrer">studentexchangeabroad</a></li>
-<li><a href="https://www.instagram.com/beasiswa.co?igsh=b2M0ZjM4YWYyaXJ1" target="_blank" rel="noopener noreferrer">beasiswa.co</a></li>
-<li><a href="https://www.instagram.com/ambis.latsol?igsh=MWlzOTI1dHhlZGJy" target="_blank" rel="noopener noreferrer">ambis.latsol</a></li>
-<li><a href="https://www.instagram.com/becomemoreidn?igsh=MW5vdW1tMWlnMWxudw==" target="_blank" rel="noopener noreferrer">Becomemoreidn</a></li>
-<li><a href="https://www.instagram.com/dibimbing.id?igsh=bnIyMGNkeXh3MzM0" target="_blank" rel="noopener noreferrer">Dibimbing.id</a></li>
-<li><a href="https://www.instagram.com/kelaskaryawan.id/" target="_blank" rel="noopener noreferrer">Kelaskaryawan</a></li>
-<li><a href="https://www.instagram.com/edukasi.karier/" target="_blank" rel="noopener noreferrer">Edukasi Karier</a></li>
+<li><a href="https://www.instagram.com/ruangguru/" target="_blank">Ruangguru</a></li>
+<li><a href="https://www.instagram.com/masukkampus" target="_blank">masukkampus</a></li>
 </ul>
 </div>
-
-<div class="card">
-<h3>YouTube</h3>
-<ul>
-<li><a href="https://www.youtube.com/@thesadewa" target="_blank" rel="noopener noreferrer">Danang Giri Sadewa</a></li>
-<li><a href="https://www.youtube.com/@Ruangguru" target="_blank" rel="noopener noreferrer">Ruangguru</a></li>
-<li><a href="https://www.youtube.com/@FarhanJournal" target="_blank" rel="noopener noreferrer">Farhan Journal</a></li>
-<li><a href="https://www.youtube.com/@SatuPersenIndonesianLifeSchool" target="_blank" rel="noopener noreferrer">Satu Persen</a></li>
-</ul>
-</div>
-
-<div class="card">
-<h3>TikTok</h3>
-<ul>
-<li><a href="https://www.tiktok.com/@vmuliana?_r=1&_t=ZS-950vGa3fxkG" target="_blank" rel="noopener noreferrer">Vina Muliana</a></li>
-<li><a href="https://www.tiktok.com/@zhifaaaaa?_r=1&_t=ZS-950vM7PD6Vc" target="_blank" rel="noopener noreferrer">zhifa | Tips SNBP SNBT</a></li>
-<li><a href="https://www.tiktok.com/@jeromepolin98" target="_blank" rel="noopener noreferrer">Jerome Polin</a></li>
-<li><a href="https://www.tiktok.com/@zhafiraiha" target="_blank" rel="noopener noreferrer">Zhafira Aqyla</a></li>
-</ul>
-</div>
-
-<div class="card">
-<h3>Tips</h3>
-<p>
-Gunakan sumber ini untuk memahami realita jurusan dan karier secara lebih mendalam,
-mulai dari pengalaman mahasiswa hingga dunia kerja.
-</p>
-</div>
-
 </div>
 
 <!-- PROFILE -->
-<div id="profile" class="hidden" style="background: transparent !important;">
-
+<div id="profile" class="hidden">
 <h2>My FYP Space ✨</h2>
-
 <div class="card">
 <h3>🪞 Refleksi Diri</h3>
-
-<label for="ref1">1. Apa yang paling penting dalam hidup aku?</label>
-<textarea id="ref1" style="height:70px;" aria-label="What is most important in my life"></textarea>
-
-<label for="ref2">2. Kapan aku merasa paling hidup / excited?</label>
-<textarea id="ref2" style="height:70px;" aria-label="When do I feel most alive"></textarea>
-
-<label for="ref3">3. Apa ketakutan terbesarku tentang masa depan?</label>
-<textarea id="ref3" style="height:70px;" aria-label="My biggest fears about the future"></textarea>
-
-<label for="ref4">4. Apa kekuatan terbesar yang aku punya?</label>
-<textarea id="ref4" style="height:70px;" aria-label="My greatest strengths"></textarea>
-
-<label for="ref5">5. Hidup seperti apa yang sebenarnya aku inginkan?</label>
-<textarea id="ref5" style="height:70px;" aria-label="What kind of life do I want"></textarea>
-
-<button class="main" type="button" onclick="saveRefleksi()">Simpan Refleksi</button>
+<label>1. Apa yang paling penting dalam hidup aku?</label>
+<textarea id="ref1" style="height:70px;"></textarea>
+<label>2. Kapan aku merasa paling hidup?</label>
+<textarea id="ref2" style="height:70px;"></textarea>
+<label>3. Apa ketakutan terbesarku?</label>
+<textarea id="ref3" style="height:70px;"></textarea>
+<label>4. Apa kekuatan terbesar yang aku punya?</label>
+<textarea id="ref4" style="height:70px;"></textarea>
+<label>5. Hidup seperti apa yang aku inginkan?</label>
+<textarea id="ref5" style="height:70px;"></textarea>
+<button class="main" onclick="saveRefleksi()">Simpan Refleksi</button>
 </div>
-
 <div class="card">
 <h3>🚀 Career Mapping</h3>
-
-<label for="plan1">📅 Rencana 3–6 bulan ke depan</label>
-<textarea id="plan1" placeholder="Langkah kecil yang bisa aku mulai..." style="height:80px;" aria-label="My short-term plan"></textarea>
-
-<label for="plan2">🎯 Target jangka menengah</label>
-<textarea id="plan2" placeholder="Dalam 1–3 tahun aku ingin..." style="height:80px;" aria-label="My medium-term goals"></textarea>
-
-<label for="plan3">🧠 Skill yang perlu dikembangkan</label>
-<textarea id="plan3" placeholder="Skill apa yang perlu aku pelajari?" style="height:80px;" aria-label="Skills I need to develop"></textarea>
-
-<label for="plan4">⚡ Action nyata</label>
-<textarea id="plan4" placeholder="Langkah konkret yang bisa aku lakukan mulai sekarang..." style="height:80px;" aria-label="Concrete actions to take"></textarea>
-
-<button class="main" type="button" onclick="savePlan()">Simpan Plan</button>
+<label>📅 Rencana 3–6 bulan ke depan</label>
+<textarea id="plan1" style="height:80px;"></textarea>
+<label>🎯 Target jangka menengah</label>
+<textarea id="plan2" style="height:80px;"></textarea>
+<label>🧠 Skill yang perlu dikembangkan</label>
+<textarea id="plan3" style="height:80px;"></textarea>
+<label>⚡ Action nyata</label>
+<textarea id="plan4" style="height:80px;"></textarea>
+<button class="main" onclick="savePlan()">Simpan Plan</button>
 </div>
-
 <div class="card">
 <h3>✨ Vision Board</h3>
-
-<label for="vision1">🌸 Diri kamu 10 tahun lagi</label>
-<textarea id="vision1" placeholder="Aku ingin menjadi..." style="height:80px;" aria-label="My vision for 10 years from now"></textarea>
-
-<label for="vision2">🌊 Goals hidup utama</label>
-<textarea id="vision2" placeholder="Hal paling penting yang ingin aku capai..." style="height:80px;" aria-label="My life goals"></textarea>
-
-<label for="vision3">💫 Hal yang membuat aku bahagia</label>
-<textarea id="vision3" placeholder="Apa yang bikin hidup aku meaningful?" style="height:80px;" aria-label="What makes me happy"></textarea>
-
-<label for="vision4">🌱 Nilai hidup yang aku pegang</label>
-<textarea id="vision4" placeholder="Contoh: kebebasan, stabilitas, impact..." style="height:80px;" aria-label="My core values"></textarea>
-
-<button class="main" type="button" onclick="saveVision()">Simpan Vision</button>
+<label>🌸 Diri kamu 10 tahun lagi</label>
+<textarea id="vision1" style="height:80px;"></textarea>
+<label>🌊 Goals hidup utama</label>
+<textarea id="vision2" style="height:80px;"></textarea>
+<label>💫 Hal yang membuat aku bahagia</label>
+<textarea id="vision3" style="height:80px;"></textarea>
+<label>🌱 Nilai hidup yang aku pegang</label>
+<textarea id="vision4" style="height:80px;"></textarea>
+<button class="main" onclick="saveVision()">Simpan Vision</button>
 </div>
-
 <div class="card">
 <h3>📊 RIASEC Result</h3>
 <p id="riasecProfile"></p>
 </div>
-
 <div class="card">
 <h3>✨ MBTI Kamu</h3>
-<select id="mbtiSelect" aria-label="Select MBTI type">
+<select id="mbtiSelect">
 <option value="">Pilih MBTI</option>
-<option>INFP</option>
-<option>INFJ</option>
-<option>INTP</option>
-<option>INTJ</option>
-<option>ISFP</option>
-<option>ISFJ</option>
-<option>ISTP</option>
-<option>ISTJ</option>
-<option>ENFP</option>
-<option>ENFJ</option>
-<option>ENTP</option>
-<option>ENTJ</option>
-<option>ESFP</option>
-<option>ESFJ</option>
-<option>ESTP</option>
-<option>ESTJ</option>
+<option>INFP</option><option>INFJ</option><option>INTP</option><option>INTJ</option>
+<option>ISFP</option><option>ISFJ</option><option>ISTP</option><option>ISTJ</option>
+<option>ENFP</option><option>ENFJ</option><option>ENTP</option><option>ENTJ</option>
+<option>ESFP</option><option>ESFJ</option><option>ESTP</option><option>ESTJ</option>
 </select>
-
-<button class="main" type="button" onclick="saveMBTI()">Simpan MBTI</button>
+<button class="main" onclick="saveMBTI()">Simpan MBTI</button>
 <p id="mbtiResult"></p>
 </div>
-
-<!-- PDF EXPORT -->
 <div class="card">
 <h3>📥 Export Results</h3>
-<p style="opacity:0.8;">Unduh semua hasil assessment, vision, plan, dan refleksi kamu sebagai PDF.</p>
-<button class="main btn-export" type="button" onclick="exportToPDF()">📥 Download as PDF</button>
+<button class="main btn-export" onclick="exportToPDF()">📥 Download as PDF</button>
 </div>
-
 </div>
 
 </main>
 
-<noscript>
-  <div style="background:#fff3cd; border:1px solid #ffc107; color:#856404; padding:15px; border-radius:5px; margin:20px; font-family: Arial;">
-    <strong>⚠️ Perhatian:</strong> Website ini memerlukan JavaScript untuk berfungsi dengan baik. Silakan aktifkan JavaScript di browser kamu.
-  </div>
-</noscript>
-
-<script src="js/data.js" defer></script>
+<script src="js/career_assessment_data2.js" defer></script>
 <script src="js/logic.js" defer></script>
 <script src="js/init.js" defer></script>
 
