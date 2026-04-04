@@ -23,6 +23,40 @@ body{
   }
 }
 
+/* Pastikan container tidak punya background putih */
+.container {
+  background: transparent !important;
+}
+
+/* Pastikan card tidak punya background solid */
+.card {
+  background: linear-gradient(135deg, rgba(147, 197, 253, 0.06), rgba(196, 181, 253, 0.08)) !important;
+  backdrop-filter: blur(20px);
+}
+
+/* Hilangkan background putih dari main */
+main {
+  background: transparent !important;
+}
+
+/* Fix untuk iOS rendering */
+@media (max-device-width: 812px) {
+  #tipeDetail,
+  #jurusanList,
+  #karierList,
+  #profile {
+    background: transparent !important;
+  }
+  
+  .container {
+    background: transparent !important;
+  }
+  
+  main {
+    background: transparent !important;
+  }
+}
+
 /* Animated gradient background - Soft blue & purple */
 body::before {
   content: '';
