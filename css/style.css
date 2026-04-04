@@ -6,7 +6,7 @@ html {
 
 body{
   margin: 0;
-  background: linear-gradient(135deg, #0b1e3d, #1b3a6b, #2a4f8f);
+  background: linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%);
   color: #ffffff;
   font-family: 'Outfit', sans-serif;
   min-height: 100vh;
@@ -135,9 +135,11 @@ nav{
 
 /* CONTAINER */
 .container{
-  max-width: 900px;
-  margin: auto;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
   padding: 30px;
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px){
