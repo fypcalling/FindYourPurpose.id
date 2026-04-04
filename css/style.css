@@ -133,24 +133,21 @@ nav{
   top: 0;
 }
 
-/* CONTAINER */
+/* CONTAINER - FULL WIDTH SEMUA DEVICE */
 .container{
-  width: 100vw;
+  width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
 }
 
 main.container > div {
   padding: 30px 20px;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px){
@@ -159,9 +156,60 @@ main.container > div {
   }
 }
 
+@media (min-width: 1200px){
+  main.container > div {
+    padding: 50px 40px;
+  }
+}
+
 @media (max-width: 480px){
   main.container > div {
     padding: 15px 10px;
+  }
+}
+
+/* HEADINGS */
+h1, h2, h3{
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-size: 3em;
+  margin: 0 0 20px 0;
+}
+
+h2 {
+  font-size: 2em;
+  margin: 0 0 15px 0;
+}
+
+h3 {
+  font-size: 1.5em;
+  margin: 0 0 10px 0;
+}
+
+/* CARD */
+.card{
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(167,199,231,0.12));
+  backdrop-filter: blur(12px);
+  padding: 22px;
+  border-radius: 16px;
+  margin: 18px 0;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: 0.3s;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px){
+  .card {
+    padding: 15px;
+    margin: 12px 0;
   }
 }
 
