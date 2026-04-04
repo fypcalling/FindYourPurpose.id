@@ -133,49 +133,42 @@ nav{
   top: 0;
 }
 
-/* ==================== CONTAINER ==================== */
-
+/* CONTAINER - FULL WIDTH SEMUA DEVICE */
 .container{
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
-}
-
-.container > div {
-  width: 100%;
-  padding: 30px 20px;
   box-sizing: border-box;
 }
 
-.container > div:not(.hidden) {
-  min-height: 100vh;
+main.container > div {
+  padding: 30px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 768px){
-  .container > div {
-    padding: 40px;
+  main.container > div {
+    padding: 40px 30px;
+  }
+}
+
+@media (min-width: 1200px){
+  main.container > div {
+    padding: 50px 40px;
   }
 }
 
 @media (max-width: 480px){
-  .container > div {
-    padding: 15px;
+  main.container > div {
+    padding: 15px 10px;
   }
 }
 
-/* ==================== CONTENT WRAPPER ==================== */
-
-h1, h2, h3, p, .card, input, select, textarea {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 900px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* ==================== HEADINGS ==================== */
-
+/* HEADINGS */
 h1, h2, h3{
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -183,31 +176,29 @@ h1, h2, h3{
 
 h1 {
   font-size: 3em;
-  margin: 0 auto 20px;
+  margin: 0 0 20px 0;
 }
 
 h2 {
   font-size: 2em;
-  margin: 0 auto 15px;
+  margin: 0 0 15px 0;
 }
 
 h3 {
   font-size: 1.5em;
-  margin: 0 auto 10px;
+  margin: 0 0 10px 0;
 }
 
-/* ==================== CARD ==================== */
-
+/* CARD */
 .card{
   background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(167,199,231,0.12));
   backdrop-filter: blur(12px);
   padding: 22px;
   border-radius: 16px;
-  margin: 18px auto;
+  margin: 18px 0;
   border: 1px solid rgba(255,255,255,0.15);
   transition: 0.3s;
   box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  max-width: 900px;
 }
 
 .card:hover{
@@ -218,9 +209,10 @@ h3 {
 @media (max-width: 768px){
   .card {
     padding: 15px;
-    margin: 12px auto;
+    margin: 12px 0;
   }
 }
+
 /* HEADINGS */
 h1, h2, h3{
   font-weight: 700;
