@@ -219,3 +219,24 @@ document.addEventListener('DOMContentLoaded', function(){
   renderQuestions();
   show('home');
 });
+function show(page) {
+  // Sembunyikan semua page
+  document.querySelectorAll('main > div').forEach(el => {
+    el.classList.add('hidden');
+  });
+  
+  // Tampilkan page yang dipilih
+  document.getElementById(page).classList.remove('hidden');
+  
+  // FORCE background transparent di iOS
+  if (navigator.platform.includes('Mac') || /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    document.getElementById(page).style.background = 'transparent !important';
+    document.getElementById(page).style.backgroundColor = 'transparent';
+  }
+  
+  // Scroll ke atas
+  window.scrollTo(0, 0);
+  
+  // Close hamburger menu
+  document.getElementById('navMenu').classList.remove('show');
+}
