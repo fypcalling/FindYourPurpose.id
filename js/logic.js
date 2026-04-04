@@ -123,14 +123,36 @@ function calculateRIASECScore(userCode, jurusanCocok) {
  * Trigger fungsi init jika diperlukan (loadTipeDetail, renderJurusan, dll)
  * @param {string} page - ID halaman yang akan ditampilkan
  */
+/**
+ * Menampilkan halaman yang dipilih dan menyembunyikan yang lain
+ * FIX untuk iOS Safari: Force repaint dengan style manipulation
+ */
 function show(page){
   // Sembunyikan semua halaman
   ["home","test","tipe","jurusan","karier","explore","profile"].forEach(p=>{
-    document.getElementById(p).classList.add("hidden");
+    let el = document.getElementById(p);
+    el.classList.add("hidden");
+    el.style.display = "none"; // Force Safari iOS
   });
   
   // Tampilkan halaman yang dipilih
-  document.getElementById(page).classList.remove("hidden");
+  let selectedElement = document.getElementById(page);
+  selectedElement.classList.remove("hidden");
+  
+  // FIX iOS Safari - Force repaint
+  selectedElement.style.display = "block";
+  selectedElement.style.visibility = "visible";
+  selectedElement.style.opacity = "1";
+  
+  // Trigger repaint untuk iOS Safari
+  void selectedElement.offsetHeight;
+  
+  // Force gradient background untuk iOS
+  if(page !== "home"){
+    selectedElement.style.backgroundColor = "transparent";
+    selectedElement.style.backgroundImage = "linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%)";
+    selectedElement.style.backgroundAttachment = "fixed";
+  }
 
   // Trigger init functions
   if(page==="tipe") loadTipeDetail();
@@ -140,6 +162,9 @@ function show(page){
   
   // Close mobile menu jika terbuka
   document.getElementById("navMenu").classList.remove("show");
+  
+  // Scroll to top
+  window.scrollTo(0, 0);
 }
 
 /**
