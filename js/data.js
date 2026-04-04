@@ -235,6 +235,6 @@ let karierData = [
   {name:"Model", tipe:"A", cocok:["A", "E", "S"], desc:"Menampilkan produk atau konsep visual dalam foto/video untuk fashion atau iklan.", gaji:"1–50+jt (per project)", pend:"Tidak Wajib"},
   {name:"Aktor", tipe:"A", cocok:["A", "S", "E"], desc:"Memerankan karakter dalam film, teater, atau iklan.", gaji:"3-100+jt", pend:"Tidak Wajib"},
   {name:"Archivist", tipe:"C", cocok:["C", "I", "A"], desc:"Mengelola dan menjaga arsip penting agar terorganisir dan mudah diakses.", gaji:"4-12jt", pend:"S1 Ilmu Perpustakaan"},
-  {name:"Manager", tipe:"E", cocok":["E", "C", "S"], desc:"Mengelola tim, strategi, dan operasional untuk mencapai target perusahaan.", gaji:"10-40+jt", pend:"S1 Manajemen / Bisnis"}
+  {name:"Manager", tipe:"E", cocok:["E", "C", "S"], desc:"Mengelola tim, strategi, dan operasional untuk mencapai target perusahaan.", gaji:"10-40+jt", pend:"S1 Manajemen / Bisnis"}
 
 ];
