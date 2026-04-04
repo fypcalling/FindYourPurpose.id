@@ -133,37 +133,44 @@ nav{
   top: 0;
 }
 
-/* CONTAINER - FULL WIDTH SEMUA DEVICE */
+/* CONTAINER - FULL WIDTH BACKGROUND */
 .container{
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
-main.container > div {
-  padding: 30px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+.container > div {
   width: 100%;
+  padding: 30px 20px;
   box-sizing: border-box;
+  min-height: 100vh;
+}
+
+.container > div > * {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 @media (min-width: 768px){
-  main.container > div {
+  .container > div {
     padding: 40px 30px;
   }
 }
 
 @media (min-width: 1200px){
-  main.container > div {
+  .container > div {
     padding: 50px 40px;
   }
 }
 
 @media (max-width: 480px){
-  main.container > div {
+  .container > div {
     padding: 15px 10px;
   }
 }
