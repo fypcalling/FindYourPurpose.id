@@ -75,7 +75,7 @@
 <main id="main-content" class="container">
 
 <!-- HOME -->
-<div id="home">
+<div id="home" style="background: transparent !important;">
 <div class="hero">
 <h1>Find Your Purpose (FYP) 🌱</h1>
 
@@ -102,7 +102,7 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 </div>
 
 <!-- TEST -->
-<div id="test" class="hidden">
+<div id="test" class="hidden" style="background: transparent !important;">
 <h2>Career Assessment</h2>
 
 <div class="card" style="background: rgba(76, 175, 80, 0.1); border-left: 4px solid #4CAF50;">
@@ -153,13 +153,13 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 </div>
 
 <!-- TIPE -->
-<div id="tipe" class="hidden">
+<div id="tipe" class="hidden" style="background: transparent !important;">
 <h2>Tipe Kamu</h2>
-<div id="tipeDetail"></div>
+<div id="tipeDetail" style="background: transparent !important;"></div>
 </div>
 
 <!-- JURUSAN -->
-<div id="jurusan" class="hidden">
+<div id="jurusan" class="hidden" style="background: transparent !important;">
 <h2>Jurusan</h2>
 
 <input id="searchJurusan" placeholder="Cari jurusan..." onkeyup="renderJurusan()" type="text" aria-label="Search majors">
@@ -175,11 +175,11 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 <option value="C">Conventional</option>
 </select>
 
-<div id="jurusanList"></div>
+<div id="jurusanList" style="background: transparent !important;"></div>
 </div>
 
 <!-- KARIER -->
-<div id="karier" class="hidden">
+<div id="karier" class="hidden" style="background: transparent !important;">
 <h2>Karier</h2>
 
 <input id="searchKarier" placeholder="Cari karier..." onkeyup="renderKarier()" type="text" aria-label="Search careers">
@@ -195,11 +195,11 @@ rekomendasi jurusan, serta pilihan karier yang sesuai.
 <option value="C">Conventional</option>
 </select>
 
-<div id="karierList"></div>
+<div id="karierList" style="background: transparent !important;"></div>
 </div>
 
 <!-- EXPLORE -->
-<div id="explore" class="hidden">
+<div id="explore" class="hidden" style="background: transparent !important;">
 <h2>Explore Resources</h2>
 
 <p style="opacity:0.8;">
@@ -258,40 +258,9 @@ mulai dari pengalaman mahasiswa hingga dunia kerja.
 </div>
 
 <!-- PROFILE -->
-<div id="profile" class="hidden">
+<div id="profile" class="hidden" style="background: transparent !important;">
 
 <h2>My FYP Space ✨</h2>
-
-<div class="card">
-<h3>RIASEC Kamu</h3>
-<p id="riasecProfile"></p>
-</div>
-
-<div class="card">
-<h3>MBTI Kamu</h3>
-<select id="mbtiSelect" aria-label="Select MBTI type">
-<option value="">Pilih MBTI</option>
-<option>INFP</option>
-<option>INFJ</option>
-<option>INTP</option>
-<option>INTJ</option>
-<option>ISFP</option>
-<option>ISFJ</option>
-<option>ISTP</option>
-<option>ISTJ</option>
-<option>ENFP</option>
-<option>ENFJ</option>
-<option>ENTP</option>
-<option>ENTJ</option>
-<option>ESFP</option>
-<option>ESFJ</option>
-<option>ESTP</option>
-<option>ESTJ</option>
-</select>
-
-<button class="main" type="button" onclick="saveMBTI()">Simpan MBTI</button>
-<p id="mbtiResult"></p>
-</div>
 
 <div class="card">
 <h3>🪞 Refleksi Diri</h3>
@@ -331,7 +300,7 @@ mulai dari pengalaman mahasiswa hingga dunia kerja.
 
 <button class="main" type="button" onclick="savePlan()">Simpan Plan</button>
 </div>
-  
+
 <div class="card">
 <h3>✨ Vision Board</h3>
 
@@ -350,6 +319,36 @@ mulai dari pengalaman mahasiswa hingga dunia kerja.
 <button class="main" type="button" onclick="saveVision()">Simpan Vision</button>
 </div>
 
+<div class="card">
+<h3>📊 RIASEC Result</h3>
+<p id="riasecProfile"></p>
+</div>
+
+<div class="card">
+<h3>✨ MBTI Kamu</h3>
+<select id="mbtiSelect" aria-label="Select MBTI type">
+<option value="">Pilih MBTI</option>
+<option>INFP</option>
+<option>INFJ</option>
+<option>INTP</option>
+<option>INTJ</option>
+<option>ISFP</option>
+<option>ISFJ</option>
+<option>ISTP</option>
+<option>ISTJ</option>
+<option>ENFP</option>
+<option>ENFJ</option>
+<option>ENTP</option>
+<option>ENTJ</option>
+<option>ESFP</option>
+<option>ESFJ</option>
+<option>ESTP</option>
+<option>ESTJ</option>
+</select>
+
+<button class="main" type="button" onclick="saveMBTI()">Simpan MBTI</button>
+<p id="mbtiResult"></p>
+</div>
 
 <!-- PDF EXPORT -->
 <div class="card">
