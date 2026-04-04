@@ -1,3 +1,30 @@
+// iOS Safari Fix - Force dark background on load
+window.addEventListener('load', function() {
+  // Pastikan body punya background
+  document.body.style.background = 'linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%)';
+  document.body.style.backgroundAttachment = 'fixed';
+  
+  // Semua section harus punya background
+  ["home","test","tipe","jurusan","karier","explore","profile"].forEach(p=>{
+    let el = document.getElementById(p);
+    if(el) {
+      el.style.backgroundColor = 'transparent';
+      el.style.backgroundImage = 'linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%)';
+      el.style.backgroundAttachment = 'fixed';
+      el.style.minHeight = '100vh';
+    }
+  });
+  
+  // Set default view
+  show('home');
+});
+
+// Additional iOS fix
+if(/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+  document.documentElement.style.height = '100%';
+  document.body.style.height = '100%';
+}
+
 // ==================== TIPE DETAIL ====================
 
 function loadTipeDetail(){
