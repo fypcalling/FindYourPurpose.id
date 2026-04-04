@@ -135,22 +135,33 @@ nav{
 
 /* CONTAINER */
 .container{
-  width: 100%;
+  width: 100vw;
   max-width: 100%;
   margin: 0;
-  padding: 30px;
+  padding: 0;
   box-sizing: border-box;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }
 
-@media (max-width: 768px){
-  .container {
-    padding: 15px;
+main.container > div {
+  padding: 30px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px){
+  main.container > div {
+    padding: 40px 30px;
   }
 }
 
 @media (max-width: 480px){
-  .container {
-    padding: 10px;
+  main.container > div {
+    padding: 15px 10px;
   }
 }
 
