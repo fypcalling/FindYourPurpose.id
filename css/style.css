@@ -8,11 +8,19 @@ body{
   margin: 0;
   background: linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%);
   background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #ffffff;
   font-family: 'Outfit', 'Montserrat', sans-serif;
   position: relative;
   overflow-x: hidden;
   min-height: 100vh;
+  
+  /* iOS Safari fallback */
+  @supports (-webkit-appearance: none) {
+    background-attachment: scroll;
+    background-size: 100% 100%;
+  }
 }
 
 /* Animated gradient background - Soft blue & purple */
