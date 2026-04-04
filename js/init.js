@@ -1,51 +1,3 @@
-// ==================== iOS Safari CSS Fix ====================
-
-// Force set background untuk semua page di iOS
-function fixIOSBackground() {
-  const pages = ['home', 'test', 'tipe', 'jurusan', 'karier', 'explore', 'profile'];
-  const gradient = 'linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%)';
-  
-  pages.forEach(pageId => {
-    const element = document.getElementById(pageId);
-    if (element) {
-      element.style.cssText = `
-        background: ${gradient} !important;
-        background-attachment: scroll !important;
-        background-size: 100% 100% !important;
-        background-color: #0f172e !important;
-      `;
-    }
-  });
-  
-  // Fix main body juga
-  document.body.style.cssText = `
-    background: ${gradient} !important;
-    background-attachment: scroll !important;
-    background-size: 100% 100% !important;
-    min-height: 100vh !important;
-  `;
-  
-  // Fix main tag
-  const main = document.querySelector('main');
-  if (main) {
-    main.style.background = 'transparent !important';
-  }
-}
-
-// Jalankan saat page load
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', fixIOSBackground);
-} else {
-  fixIOSBackground();
-}
-
-// Jalankan ulang saat user ganti page
-const originalShow = window.show || function() {};
-window.show = function(page) {
-  originalShow(page);
-  setTimeout(fixIOSBackground, 100);
-};
-
 // ==================== TIPE DETAIL ====================
 
 function loadTipeDetail(){
@@ -267,21 +219,3 @@ document.addEventListener('DOMContentLoaded', function(){
   renderQuestions();
   show('home');
 });
-function show(page) {
-  // Sembunyikan semua page
-  document.querySelectorAll('main > div').forEach(el => {
-    el.classList.add('hidden');
-  });
-  
-  // Tampilkan page yang dipilih
-  document.getElementById(page).classList.remove('hidden');
-  
-  // Scroll ke atas
-  window.scrollTo(0, 0);
-  
-  // Close hamburger menu
-  document.getElementById('navMenu').classList.remove('show');
-  
-  // Fix background
-  fixIOSBackground();
-}
