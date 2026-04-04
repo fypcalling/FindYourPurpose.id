@@ -665,6 +665,68 @@ a:focus{
   }
 }
 
+/* ==================== FIX iOS BACKGROUND ISSUE ==================== */
+
+/* Pastikan section selalu punya background */
+#tipe, #jurusan, #karier, #profile, #test, #home, #explore {
+  background: linear-gradient(135deg, #0f172e 0%, #1a2557 20%, #1e3a8f 40%, #1a2557 60%, #0f172e 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+/* Override hidden untuk iOS */
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* Pastikan card punya background yang proper */
+.card {
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  background: linear-gradient(135deg, rgba(147, 197, 253, 0.06), rgba(196, 181, 253, 0.08)) !important;
+  -webkit-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Force Safari iOS compatibility */
+@supports (-webkit-touch-callout: none) {
+  body::before,
+  body::after {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  #tipe, #jurusan, #karier, #profile, #test, #home, #explore {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+  
+  .card {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Mobile safeguard */
+@media (max-width: 1024px) {
+  #tipe, #jurusan, #karier, #profile, #test, #home, #explore {
+    background-attachment: scroll !important;
+  }
+  
+  body {
+    background-attachment: scroll !important;
+  }
+}
+
 /* ==================== NOSCRIPT FALLBACK ==================== */
 
 noscript {
