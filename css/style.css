@@ -133,28 +133,24 @@ nav{
   top: 0;
 }
 
-/* CONTAINER - FULL WIDTH BACKGROUND */
+/* ==================== CONTAINER ==================== */
+
 .container{
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
 .container > div {
   width: 100%;
   padding: 30px 20px;
   box-sizing: border-box;
-  min-height: 100vh;
 }
 
-.container > div > * {
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
+.container > div:not(.hidden) {
+  min-height: 100vh;
 }
 
 @media (min-width: 768px){
@@ -175,7 +171,8 @@ nav{
   }
 }
 
-/* HEADINGS */
+/* ==================== HEADINGS ==================== */
+
 h1, h2, h3{
   font-weight: 700;
   letter-spacing: -0.5px;
@@ -183,20 +180,21 @@ h1, h2, h3{
 
 h1 {
   font-size: 3em;
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 h2 {
   font-size: 2em;
-  margin: 0 0 15px 0;
+  margin-bottom: 15px;
 }
 
 h3 {
   font-size: 1.5em;
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
 }
 
-/* CARD */
+/* ==================== CARD ==================== */
+
 .card{
   background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(167,199,231,0.12));
   backdrop-filter: blur(12px);
@@ -218,6 +216,22 @@ h3 {
     padding: 15px;
     margin: 12px 0;
   }
+}
+
+/* ==================== INPUT ==================== */
+
+select, input, textarea{
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(167,199,231,0.12);
+  color: white;
+  outline: none;
+  transition: 0.2s;
+  font-size: 16px;
+  box-sizing: border-box;
 }
 
 /* HEADINGS */
